@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CLHome extends StatelessWidget {
+class CLHome extends StatefulWidget {
+  final Widget child;
   final String title;
-  CLHome({Key key,@required this.title}):super(key:key);
 
+  CLHome({Key key, this.child,@required this.title}) : super(key: key);
+
+  _CLHomeState createState() => _CLHomeState();
+}
+
+/// 有状态控件,必须结合一个状态管理类来进行实现
+class _CLHomeState extends State<CLHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('${title}'),
+    return Scaffold(                /// 获取传进来的title(使用widget获取)
+      appBar: AppBar(title: Text('${widget.title}'),
         centerTitle: true, /// 标题居中
         /// 设置状态栏颜色
         brightness: Brightness.light, 
@@ -44,7 +51,7 @@ class CLHome extends StatelessWidget {
         ),
       ), 
       body: Center(
-        child: Text('${title}'),
+        child: Text('${widget.title}'),
       ),
     );
   }
