@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import '../Utils/CLDioUtil.dart';
 
 class CLHome extends StatefulWidget {
   final Widget child;
@@ -50,9 +52,53 @@ class _CLHomeState extends State<CLHome> {
           ],
         ),
       ), 
-      body: Center(
-        child: Text('${widget.title}'),
-      ),
+      body: CLHomeData()
     );
+  }
+}
+
+/// 实例化网络请求工具
+Dio dio = new Dio();
+
+class CLHomeData extends StatefulWidget {
+  final Widget child;
+
+  CLHomeData({Key key, this.child}) : super(key: key);
+
+  _CLHomeData createState() => _CLHomeData();
+}
+
+class _CLHomeData extends State<CLHomeData> {
+  /// 默认请求第一页的数据
+  int page = 1;
+  int pageSize = 20;
+  /// 数组
+  var mList = [];
+
+  /// 控件被创建的时候,会执行initState方法
+  void initState() { 
+    super.initState();
+    /// 请求数据
+    getDouYuLiveListData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: this.mList.length,
+      itemBuilder: (BuildContext context, int index) {
+      return Text(index.toString());
+     },
+    );
+  }
+
+  getDouYuLiveListData() async {
+    int offset = (page - 1) * pageSize;
+    CLResultModel response = await CLDioUtil.instance.requestGet('http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=$offset');
+    /// 把数据更新放到setState中会刷新页面
+    setState(() {
+      mList = response.data['data'];
+    });
+    // print(response.data);
   }
 }
