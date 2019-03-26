@@ -22,7 +22,9 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// 在Flutter中,每个空间都是一个类
-    return Scaffold(
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
       appBar: AppBar(title: Text('首页'),
       centerTitle: true, /// 标题居中
       /// 设置状态栏颜色
@@ -37,7 +39,7 @@ class MyHome extends StatelessWidget {
         },)
       ],
       ),
-    drawer: Drawer(child: ListView(
+      drawer: Drawer(child: ListView(
       padding: EdgeInsets.all(0), /// 取消内边距,
       children: <Widget>[
         UserAccountsDrawerHeader(
@@ -58,6 +60,28 @@ class MyHome extends StatelessWidget {
         ListTile(title: Text("退出"),trailing: Icon(Icons.exit_to_app))
       ],
     ),), /// 添加侧边栏
+      /// 底部Tabbar
+      bottomNavigationBar: Container(
+        /// 美化控件
+        // height: 88,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: TabBar(
+          isScrollable: false,
+          indicatorSize: TabBarIndicatorSize.label,
+          indicatorColor: Colors.white, /// 隐藏指示器
+          labelColor: Colors.red,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: TextStyle(height: 0.0,fontSize: 12.0),
+        tabs: <Widget>[
+          Tab(icon: Icon(Icons.home),text: '首页',),
+          Tab(icon: Icon(Icons.movie_creation),text: '美女',),
+          Tab(icon: Icon(Icons.movie_filter),text: '帅哥',),
+          Tab(icon: Icon(Icons.person),text: '我',),
+      ],),
+      )
+    ),
     );
   }
 }
