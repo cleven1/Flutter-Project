@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Home/CLHome.dart';
+import '../MeiZi/CLMeiZi.dart';
 
 class CLTabBar extends StatelessWidget {
   @override
@@ -28,7 +29,7 @@ class CLTabbar extends StatefulWidget {
 class _CLTabbar extends State<CLTabbar> {
   final List<Widget> _children = [
     CLHome(title: '首页',),
-    CLHome(title: '美女'),
+    CLMeiZi(title: '美女'),
     CLHome(title: '帅哥'),
     CLHome(title: '我',),
   ];
