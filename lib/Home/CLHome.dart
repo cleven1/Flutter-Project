@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../Utils/CLDioUtil.dart';
+import '../Home/Model/CLHomeModel.dart';
+import 'dart:convert';
 
 class CLHome extends StatefulWidget {
   final Widget child;
@@ -73,7 +75,7 @@ class _CLHomeData extends State<CLHomeData> {
   int page = 1;
   int pageSize = 20;
   /// 数组
-  var mList = [];
+  List<CLHomeModel> mList = [];
 
   /// 控件被创建的时候,会执行initState方法
   void initState() { 
@@ -87,7 +89,38 @@ class _CLHomeData extends State<CLHomeData> {
     return ListView.builder(
       itemCount: this.mList.length,
       itemBuilder: (BuildContext context, int index) {
-      return Text(index.toString());
+        var model = mList[index];
+      return Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.black12)),
+        ),
+        child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(bottom: 15),
+            child: Image.network(model.roomSrc,width: 130,height: 180,fit: BoxFit.cover,),
+          ),
+          Container(
+            height: 180,
+            padding: EdgeInsets.only(left: 15,bottom: 15),
+            child: Column(
+            /// 副轴开始位置对齐
+            crossAxisAlignment: CrossAxisAlignment.start,
+            /// 平分区域
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text("房间ID: ${model.roomId}"),
+              Text("房间名称: ${model.roomName}"),
+              Text("主播名称: ${model.nickname}"),
+              Text("主播ID: ${model.ownerUid}"),
+              Text("观看人数: ${model.online.toString()}"),
+              Text("直播类型: ${model.gameName}"),
+            ],
+          ),
+          )
+        ],
+      ),
+      );
      },
     );
   }
@@ -95,10 +128,15 @@ class _CLHomeData extends State<CLHomeData> {
   getDouYuLiveListData() async {
     int offset = (page - 1) * pageSize;
     CLResultModel response = await CLDioUtil.instance.requestGet('http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=$offset');
+    List jsons = response.data['data'];
+    List<CLHomeModel> tempModel = [];
+    jsons.forEach((model){
+        tempModel.add(CLHomeModel.fromJson(model));
+        print(model);
+      });
     /// 把数据更新放到setState中会刷新页面
     setState(() {
-      mList = response.data['data'];
+      mList = tempModel;
     });
-    // print(response.data);
   }
 }

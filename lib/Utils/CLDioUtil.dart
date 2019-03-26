@@ -81,7 +81,7 @@ class CLDioUtil {
 
 }
 class CLResultModel {
-  var data;
+  Map<String,dynamic> data;
   bool success;
   int code;
   var headers;
