@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../Utils/CLDioUtil.dart';
 import '../Home/Model/CLHomeModel.dart';
-import 'dart:convert';
+import './CLHomeDetail.dart';
 
 class CLHome extends StatefulWidget {
   final Widget child;
@@ -70,12 +70,15 @@ class CLHomeData extends StatefulWidget {
   _CLHomeData createState() => _CLHomeData();
 }
 
-class _CLHomeData extends State<CLHomeData> {
+class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
   /// 默认请求第一页的数据
   int page = 1;
   int pageSize = 20;
   /// 数组
   List<CLHomeModel> mList = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   /// 控件被创建的时候,会执行initState方法
   void initState() { 
@@ -90,7 +93,13 @@ class _CLHomeData extends State<CLHomeData> {
       itemCount: this.mList.length,
       itemBuilder: (BuildContext context, int index) {
         var model = mList[index];
-      return Container(
+      return GestureDetector(onTap: (){ /// 添加item点击事件
+        print('index = $index');
+        /// 跳转界面
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return CLHomeDetail(roomName: model.roomName,roomId: model.roomId);
+        }));
+      },child: Container(
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.black12)),
         ),
@@ -119,6 +128,7 @@ class _CLHomeData extends State<CLHomeData> {
           ),
           )
         ],
+      ),
       ),
       );
      },
