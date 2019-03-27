@@ -5,6 +5,7 @@ import '../custom/CLText.dart';
 import 'package:extended_image/extended_image.dart';
 import '../Home/CLHomeDetailPage.dart';
 import '../custom/CLListViewRefresh.dart';
+import '../custom/CLAppbar.dart';
 
 class CLMeiZiPage extends StatefulWidget {
   final Widget child;
@@ -37,14 +38,8 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:  AppBar(
-          title: Text('${widget.title}'),
-          /// 标题居中
-          centerTitle: true,
-          /// 设置导航栏阴影效果
-          elevation: 0.0,
-          /// 设置状态栏颜色
-          brightness: Brightness.light,
+        appBar:  CLAppBar(
+          title: '${widget.title}',
         ),
         body: Container(
           child: CLListViewRefresh(
@@ -109,9 +104,9 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            CLText(text: '主播名称: ${model.nickname}',textColor: Colors.purple,),
+                            CLText(text: '主播名称: ${model.nickname}',style: setTextStyle(textColor: Colors.purple),),
                             SizedBox(height: 5,),
-                            CLText(text: "类型: ${model.gameName}",textColor: Colors.yellow,)
+                            CLText(text: "类型: ${model.gameName}",style: setTextStyle(textColor: Colors.yellow),)
                           ],
                         ),
                       ),

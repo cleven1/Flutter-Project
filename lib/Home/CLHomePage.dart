@@ -6,8 +6,8 @@ import './CLHomeDetailPage.dart';
 import '../custom/CLText.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import '../custom/CLListViewRefresh.dart';
+import '../custom/CLAppbar.dart';
 
 class CLHomePage extends StatefulWidget {
   final Widget child;
@@ -23,12 +23,7 @@ class _CLHomeState extends State<CLHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(                /// 获取传进来的title(使用widget获取)
-      appBar: AppBar(title: Text('${widget.title}'),
-        centerTitle: true, /// 标题居中
-        /// 设置状态栏颜色
-        brightness: Brightness.light, 
-        /// 设置导航栏阴影效果
-        elevation: 0.0,
+      appBar: CLAppBar(title: '${widget.title}',
         /// 右侧按钮
         actions: <Widget>[ 
           IconButton(icon: Icon(Icons.search),
