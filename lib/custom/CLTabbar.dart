@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Home/CLHome.dart';
+import '../Home/CLHomePage.dart';
 import '../MeiZi/CLMeiZi.dart';
 
 class CLTabBar extends StatelessWidget {
@@ -28,10 +28,10 @@ class CLTabbar extends StatefulWidget {
 
 class _CLTabbar extends State<CLTabbar> {
   final List<Widget> _children = [
-    CLHome(title: '首页',),
+    CLHomePage(title: '首页',),
     CLMeiZi(title: '美女'),
-    CLHome(title: '帅哥'),
-    CLHome(title: '我',),
+    CLHomePage(title: '帅哥'),
+    CLHomePage(title: '我',),
   ];
   /// 当前选中的索引
   int _currentIndex = 0;

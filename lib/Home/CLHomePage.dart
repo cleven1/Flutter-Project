@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../Utils/CLDioUtil.dart';
 import '../Home/Model/CLHomeModel.dart';
-import './CLHomeDetail.dart';
+import './CLHomeDetailPage.dart';
+import '../custom/CLText.dart';
 
-class CLHome extends StatefulWidget {
+class CLHomePage extends StatefulWidget {
   final Widget child;
   final String title;
 
-  CLHome({Key key, this.child,@required this.title}) : super(key: key);
+  CLHomePage({Key key, this.child,@required this.title}) : super(key: key);
 
   _CLHomeState createState() => _CLHomeState();
 }
 
 /// 有状态控件,必须结合一个状态管理类来进行实现
-class _CLHomeState extends State<CLHome> {
+class _CLHomeState extends State<CLHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(                /// 获取传进来的title(使用widget获取)
@@ -97,7 +98,7 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
         print('index = $index');
         /// 跳转界面
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CLHomeDetail(roomName: model.roomName,roomId: model.roomId);
+          return CLHomeDetailPage(roomName: model.roomName,roomId: model.roomId);
         }));
       },child: Container(
         decoration: BoxDecoration(
@@ -111,6 +112,7 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
           ),
           Container(
             height: 180,
+            width: MediaQuery.of(context).size.width - 130 - 15,
             padding: EdgeInsets.only(left: 15,bottom: 15),
             child: Column(
             /// 副轴开始位置对齐
@@ -118,12 +120,12 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
             /// 平分区域
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Text("房间ID: ${model.roomId}"),
-              Text("房间名称: ${model.roomName}"),
-              Text("主播名称: ${model.nickname}"),
-              Text("主播ID: ${model.ownerUid}"),
-              Text("观看人数: ${model.online.toString()}"),
-              Text("直播类型: ${model.gameName}"),
+              CLText(text: "房间ID: ${model.roomId}",),
+              CLText(text: "房间名称: ${model.roomName}",maxLines: 1,),
+              CLText(text: "主播名称: ${model.nickname}"),
+              CLText(text: "主播ID: ${model.ownerUid}"),
+              CLText(text: "观看人数: ${model.online.toString()}"),
+              CLText(text: "直播类型: ${model.gameName}"),
             ],
           ),
           )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Utils/CLDioUtil.dart';
 import '../Home/Model/CLHomeModel.dart';
+import '../custom/CLText.dart';
 
 class CLMeiZi extends StatefulWidget {
   final Widget child;
@@ -124,20 +125,4 @@ class _CLMeiZiState extends State<CLMeiZi> with AutomaticKeepAliveClientMixin  {
 
   }
 
-}
-
-class CLText extends StatelessWidget {
-  final String text;
-  final double fontSize;
-  final Color textColor;
-
-  CLText({Key key, @required this.text, this.fontSize, this.textColor}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(fontSize: fontSize, color: textColor),
-    );
-  }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CLHomeDetail extends StatefulWidget {
+class CLHomeDetailPage extends StatefulWidget {
   final Widget child;
   final String roomId;
   final String roomName;
-  CLHomeDetail({Key key, this.child, this.roomId, this.roomName}) : super(key: key);
+  CLHomeDetailPage({Key key, this.child, this.roomId, this.roomName}) : super(key: key);
 
   _CLHomeDetailState createState() => _CLHomeDetailState();
 }
 
-class _CLHomeDetailState extends State<CLHomeDetail> {
+class _CLHomeDetailState extends State<CLHomeDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
