@@ -46,60 +46,60 @@ class _CLMeiZiState extends State<CLMeiZi> with AutomaticKeepAliveClientMixin  {
             itemBuilder: (BuildContext context, int index) {
               var model = mList[index];
             return Container(
-              height: 200,
+              // height: 200,
               padding: EdgeInsets.only(left: 15,right: 15,top: 15),
               
-              child: Stack(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration( /// 添加阴影
-                      boxShadow: [BoxShadow(color: Colors.black26,blurRadius: 10.0,offset: Offset(10.0, 10.0),spreadRadius: 0.0),],
+                  Text("房间ID: ${model.roomId}"),
+                  Text("房间名称: ${model.roomName}"),
+                  SizedBox(height: 10,),
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration( /// 添加阴影
+                          boxShadow: [BoxShadow(color: Colors.black26,blurRadius: 10.0,offset: Offset(10.0, 10.0),spreadRadius: 0.0),],
+                          ),
+                        child: ClipRRect( /// 网络图片添加圆角
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          child: FadeInImage.assetNetwork(
+                            width: MediaQuery.of(context).size.width,
+                            placeholder: '',
+                            image: model.verticalSrc,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        ),
+                      
+                      Positioned(
+                        left: 15,
+                        bottom: 15,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            CLText(text: '主播名称: ${model.nickname}',textColor: Colors.purple,),
+                            SizedBox(height: 5,),
+                            CLText(text: "类型: ${model.gameName}",textColor: Colors.yellow,)
+                          ],
+                        ),
                       ),
-                    child: ClipRRect( /// 网络图片添加圆角
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      child: FadeInImage.assetNetwork(
-                        width: MediaQuery.of(context).size.width,
-                        placeholder: '',
-                        image: model.verticalSrc,
-                        fit: BoxFit.cover,
+                      Positioned(
+                        left: 15,
+                        top: 15,
+                        child: Text("主播ID: ${model.ownerUid}",style: TextStyle(color: Colors.pink[300]),),
                       ),
-                    ),
-                    ),
-                  Positioned(
-                    left: 15,
-                    top: 10,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("房间ID: ${model.roomId}"),
-                        Text("房间名称: ${model.roomName}"),
-                      ]
-                    )
+                      Positioned(
+                        right: 15,
+                        bottom: 15,
+                        child: Text("在线人数: ${model.online.toString()}",style: TextStyle(color: Colors.red),),
+                      )
+                    ],
                   ),
-                  Positioned(
-                    left: 15,
-                    bottom: 15,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("名称: ${model.nickname}"),
-                        SizedBox(width: 20,),
-                        Text("类型: ${model.gameName}"),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    right: 15,
-                    top: 15,
-                    child: Text("主播ID: ${model.ownerUid}"),
-                  ),
-                  Positioned(
-                    right: 15,
-                    bottom: 15,
-                    child: Text("观看人数: ${model.online.toString()}"),
-                  )
+                  SizedBox(height: 10,),
+                  Divider() /// 添加底部线
                 ],
-              ),
+              )
             );
            },
           ),
@@ -124,4 +124,20 @@ class _CLMeiZiState extends State<CLMeiZi> with AutomaticKeepAliveClientMixin  {
 
   }
 
+}
+
+class CLText extends StatelessWidget {
+  final String text;
+  final double fontSize;
+  final Color textColor;
+
+  CLText({Key key, @required this.text, this.fontSize, this.textColor}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: fontSize, color: textColor),
+    );
+  }
 }
