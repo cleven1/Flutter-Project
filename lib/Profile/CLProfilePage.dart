@@ -4,6 +4,7 @@ import '../custom/CLText.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:extended_image/extended_image.dart';
 
+
 class CLProfileModel {
   
   String title;
