@@ -4,6 +4,7 @@ import '../Utils/CLDioUtil.dart';
 import '../Home/Model/CLHomeModel.dart';
 import './CLHomeDetailPage.dart';
 import '../custom/CLText.dart';
+import 'package:extended_image/extended_image.dart';
 
 class CLHomePage extends StatefulWidget {
   final Widget child;
@@ -72,14 +73,15 @@ class CLHomeData extends StatefulWidget {
 }
 
 class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
+  
+  @override
+  bool get wantKeepAlive => true;
+  
   /// 默认请求第一页的数据
   int page = 1;
   int pageSize = 20;
   /// 数组
   List<CLHomeModel> mList = [];
-
-  @override
-  bool get wantKeepAlive => true;
 
   /// 控件被创建的时候,会执行initState方法
   void initState() { 
@@ -108,7 +110,8 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(bottom: 15),
-            child: Image.network(model.roomSrc,width: 130,height: 180,fit: BoxFit.cover,),
+            
+            child: ExtendedImage.network(model.roomSrc,width: 130,height: 180,fit: BoxFit.cover,cache: true,),
           ),
           Container(
             height: 180,

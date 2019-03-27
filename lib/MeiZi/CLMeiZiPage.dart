@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 import '../Utils/CLDioUtil.dart';
 import '../Home/Model/CLHomeModel.dart';
 import '../custom/CLText.dart';
+import 'package:extended_image/extended_image.dart';
 
-class CLMeiZi extends StatefulWidget {
+class CLMeiZiPage extends StatefulWidget {
   final Widget child;
   final String title;
 
-  CLMeiZi({Key key, this.child,@required this.title}) : super(key: key);
+  CLMeiZiPage({Key key, this.child,@required this.title}) : super(key: key);
 
   _CLMeiZiState createState() => _CLMeiZiState();
 
 }
 
-class _CLMeiZiState extends State<CLMeiZi> with AutomaticKeepAliveClientMixin  {
+class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixin  {
+
+  @override
+  bool get wantKeepAlive => true; 
+
 
   /// 默认请求第一页的数据
   int page = 1;
@@ -21,8 +26,6 @@ class _CLMeiZiState extends State<CLMeiZi> with AutomaticKeepAliveClientMixin  {
   /// 数组
   List<CLHomeModel> mList = [];
 
-  @override
-  bool get wantKeepAlive => true;
 
   void initState() { 
     super.initState();
@@ -63,16 +66,13 @@ class _CLMeiZiState extends State<CLMeiZi> with AutomaticKeepAliveClientMixin  {
                           boxShadow: [BoxShadow(color: Colors.black26,blurRadius: 10.0,offset: Offset(10.0, 10.0),spreadRadius: 0.0),],
                           ),
                         child: ClipRRect( /// 网络图片添加圆角
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          child: FadeInImage.assetNetwork(
-                            width: MediaQuery.of(context).size.width,
-                            placeholder: '',
-                            image: model.verticalSrc,
-                            fit: BoxFit.cover,
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            child: ExtendedImage.network(model.verticalSrc,
+                            fit: BoxFit.fill,
+                            cache: true,
+                            ),
                           ),
                         ),
-                        ),
-                      
                       Positioned(
                         left: 15,
                         bottom: 15,

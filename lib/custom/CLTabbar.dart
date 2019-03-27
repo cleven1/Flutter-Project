@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Home/CLHomePage.dart';
-import '../MeiZi/CLMeiZi.dart';
+import '../MeiZi/CLMeiZiPage.dart';
 
 class CLTabBar extends StatelessWidget {
   @override
@@ -29,7 +29,7 @@ class CLTabbar extends StatefulWidget {
 class _CLTabbar extends State<CLTabbar> {
   final List<Widget> _children = [
     CLHomePage(title: '首页',),
-    CLMeiZi(title: '美女'),
+    CLMeiZiPage(title: '美女'),
     CLHomePage(title: '帅哥'),
     CLHomePage(title: '我',),
   ];
@@ -44,7 +44,10 @@ class _CLTabbar extends State<CLTabbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
+      body: IndexedStack( /// 使用IndexedStack存储界面,防止每次都重新加载数据
+        children: _children,
+        index: _currentIndex,
+      ),
       bottomNavigationBar: BottomNavigationBar( //添加底部Tabbar
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
