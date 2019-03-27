@@ -27,6 +27,7 @@ dependencies:
   extended_image: ^0.1.7
   flutter_webview_plugin: ^0.3.1
   flutter_easyrefresh: ^1.2.7
+  flutter_section_table_view: ^1.0.3
   
 
 dev_dependencies:

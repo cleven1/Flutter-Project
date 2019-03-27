@@ -32,7 +32,15 @@ class _CLHomeState extends State<CLHomePage> {
           },)
       ],),
       /// 侧边栏
-      drawer: Drawer(child: ListView(
+      drawer: getDrawerContainer(), 
+      body: CLHomeData()
+    );
+  }
+}
+
+/// 侧边栏
+getDrawerContainer() {
+  return Drawer(child: ListView(
         padding: EdgeInsets.all(0), /// 取消内边距,
         children: <Widget>[
           UserAccountsDrawerHeader(
@@ -53,10 +61,7 @@ class _CLHomeState extends State<CLHomePage> {
             ListTile(title: Text("退出"),trailing: Icon(Icons.exit_to_app))
           ],
         ),
-      ), 
-      body: CLHomeData()
-    );
-  }
+      );
 }
 
 /// 实例化网络请求工具

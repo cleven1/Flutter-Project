@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Home/CLHomePage.dart';
 import '../MeiZi/CLMeiZiPage.dart';
+import '../Profile/CLProfilePage.dart';
 
 class CLTabBar extends StatelessWidget {
   @override
@@ -31,7 +32,7 @@ class _CLTabbar extends State<CLTabbar> {
     CLHomePage(title: '首页',),
     CLMeiZiPage(title: '美女'),
     CLHomePage(title: '帅哥'),
-    CLHomePage(title: '我',),
+    CLProfilePage(title: '我',),
   ];
   /// 当前选中的索引
   int _currentIndex = 0;
