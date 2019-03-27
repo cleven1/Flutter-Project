@@ -5,6 +5,9 @@ import '../Home/Model/CLHomeModel.dart';
 import './CLHomeDetailPage.dart';
 import '../custom/CLText.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import '../custom/CLListViewRefresh.dart';
 
 class CLHomePage extends StatefulWidget {
   final Widget child;
@@ -87,22 +90,47 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
   void initState() { 
     super.initState();
     /// 请求数据
-    getDouYuLiveListData();
+    /// 延时3秒
+    Future.delayed(Duration(seconds: 3),(){
+      getDouYuLiveListData();
+    });
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return getListViewContainer();
+  }
+
+  getListViewContainer() {
+
+    return CLListViewRefresh(
+      listData: mList,
+      onRefresh: (){
+        getDouYuLiveListData();
+      },
+      loadMore: () {
+        getDouYuLiveListData(isLoadMore: true);
+      },
+      child: ListView.builder(
       itemCount: this.mList.length,
       itemBuilder: (BuildContext context, int index) {
         var model = mList[index];
       return GestureDetector(onTap: (){ /// 添加item点击事件
-        print('index = $index');
         /// 跳转界面
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return CLHomeDetailPage(roomName: model.roomName,roomId: model.roomId);
         }));
-      },child: Container(
+      },child: getListViewItemContainer(model),
+      );
+     },
+    ),
+    );
+  }
+
+  /// cell布局
+  getListViewItemContainer(CLHomeModel model) {
+    return Container(
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.black12)),
         ),
@@ -134,24 +162,28 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
           )
         ],
       ),
-      ),
       );
-     },
-    );
   }
 
-  getDouYuLiveListData() async {
-    int offset = (page - 1) * pageSize;
+  /// 获取数据
+  getDouYuLiveListData({bool isLoadMore = false}) async {
+    int offset = 0;
+    if (isLoadMore) {
+        offset = (page - 1) * pageSize;
+    }
     CLResultModel response = await CLDioUtil.instance.requestGet('http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=$offset');
     List jsons = response.data['data'];
     List<CLHomeModel> tempModel = [];
     jsons.forEach((model){
         tempModel.add(CLHomeModel.fromJson(model));
-        print(model);
       });
     /// 把数据更新放到setState中会刷新页面
     setState(() {
-      mList = tempModel;
+      if (isLoadMore){
+        mList.addAll(tempModel);
+      }else{
+        mList = tempModel;
+      }
     });
   }
 }
