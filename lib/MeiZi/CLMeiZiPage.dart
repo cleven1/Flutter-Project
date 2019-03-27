@@ -4,6 +4,7 @@ import '../Home/Model/CLHomeModel.dart';
 import '../custom/CLText.dart';
 import 'package:extended_image/extended_image.dart';
 import '../Home/CLHomeDetailPage.dart';
+import '../custom/CLListViewRefresh.dart';
 
 class CLMeiZiPage extends StatefulWidget {
   final Widget child;
@@ -46,7 +47,22 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
           brightness: Brightness.light,
         ),
         body: Container(
-          child: ListView.builder(
+          child: CLListViewRefresh(
+            listData: mList,
+            onRefresh: (){
+
+            },
+            loadMore: (){
+
+            },
+            child: getListViewContainer(),
+          ),
+        ),
+     );
+  }
+
+  getListViewContainer(){
+    return ListView.builder(
             itemCount: mList.length,
             itemBuilder: (BuildContext context, int index) {
               var model = mList[index];
@@ -56,7 +72,14 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
                   builder: (context) => CLHomeDetailPage(roomId: model.roomId,roomName: model.roomName,),
                 ));
               },
-              child: Container(
+              child: getListViewItemContainer(model),
+            );
+           },
+          );
+  }
+
+  getListViewItemContainer(CLHomeModel model){
+     return Container(
               // height: 200,
               padding: EdgeInsets.only(left: 15,right: 15,top: 15),
               
@@ -108,12 +131,7 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
                   Divider() /// 添加底部线
                 ],
               )
-            ),
             );
-           },
-          ),
-        ),
-     );
   }
 
   getDouYuMeiZiData() async {
