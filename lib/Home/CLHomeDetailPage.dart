@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class CLHomeDetailPage extends StatefulWidget {
   final Widget child;
@@ -22,8 +23,11 @@ class _CLHomeDetailState extends State<CLHomeDetailPage> {
           /// 设置状态栏颜色
           brightness: Brightness.light,
         ),
-        body: Container(
-          child: Center(child: Text('${widget.roomId}'),),
+        body: WebviewScaffold( /// 加载webView
+          url: 'https://www.douyu.com/${widget.roomId}',
+          initialChild: Center(
+            child: Text('加载中...'),
+          ),
         ),
     );
   }

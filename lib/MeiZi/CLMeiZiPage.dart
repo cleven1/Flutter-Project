@@ -3,6 +3,7 @@ import '../Utils/CLDioUtil.dart';
 import '../Home/Model/CLHomeModel.dart';
 import '../custom/CLText.dart';
 import 'package:extended_image/extended_image.dart';
+import '../Home/CLHomeDetailPage.dart';
 
 class CLMeiZiPage extends StatefulWidget {
   final Widget child;
@@ -49,7 +50,13 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
             itemCount: mList.length,
             itemBuilder: (BuildContext context, int index) {
               var model = mList[index];
-            return Container(
+            return GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => CLHomeDetailPage(roomId: model.roomId,roomName: model.roomName,),
+                ));
+              },
+              child: Container(
               // height: 200,
               padding: EdgeInsets.only(left: 15,right: 15,top: 15),
               
@@ -101,6 +108,7 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
                   Divider() /// 添加底部线
                 ],
               )
+            ),
             );
            },
           ),

@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   dio: ^2.1.0
   extended_image: ^0.1.7
+  flutter_webview_plugin: ^0.3.1
+  
 
 dev_dependencies:
   flutter_test:
