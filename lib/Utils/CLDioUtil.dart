@@ -55,6 +55,9 @@ class CLDioUtil {
     Response response;
     Response errorResponse;
     try {
+      if (!url.contains('http')) {
+        url = baseUrl + url;
+      }
       response = await dio.request(url,data: params,options: option);
     } on DioError catch (error) {
       if (error.response != null){

@@ -137,7 +137,6 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
     List<CLHomeModel> tempModel = [];
     jsons.forEach((model){
         tempModel.add(CLHomeModel.fromJson(model));
-        print(model);
       });
     /// 把数据更新放到setState中会刷新页面
     setState(() {

@@ -84,8 +84,8 @@ class CLFlowDelegate extends FlowDelegate {
       itemW = 120;
       itemH = 120;
     }else if (count <= 3){
-      itemW = 90;
-      itemH = 90;
+      itemW = 80;
+      itemH = 80;
     }else if (count <= 6) {
         itemW = 70;
         itemH = 70;
