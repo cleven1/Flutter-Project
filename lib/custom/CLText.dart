@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CLText extends StatelessWidget {
 
   final String text;
-  final int maxLines = 1;
+  int maxLines;
   final TextStyle style;
   final TextAlign textAlign;
   final TextDirection textDirection;
@@ -12,8 +12,8 @@ class CLText extends StatelessWidget {
   CLText({
     Key key,
     @required this.text, 
-    int maxLines, 
-    this.textAlign,
+    this.maxLines = 1, 
+    this.textAlign = TextAlign.left,
     this.textDirection,
     this.overflow = TextOverflow.ellipsis,
     this.style}):super(key:key);

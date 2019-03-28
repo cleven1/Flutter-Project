@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../Home/CLHomePage.dart';
 import '../MeiZi/CLMeiZiPage.dart';
 import '../Profile/CLProfilePage.dart';
+import '../Moments/CLMomentsPage.dart';
 
 class CLTabBar extends StatelessWidget {
   @override
@@ -31,7 +32,7 @@ class _CLTabbar extends State<CLTabbar> {
   final List<Widget> _children = [
     CLHomePage(title: '首页',),
     CLMeiZiPage(title: '美女'),
-    CLHomePage(title: '帅哥'),
+    CLMomentsPage(title: '朋友圈'),
     CLProfilePage(title: '我',),
   ];
   /// 当前选中的索引
@@ -65,7 +66,7 @@ class _CLTabbar extends State<CLTabbar> {
           ),
             BottomNavigationBarItem(
             icon: Icon(Icons.disc_full),
-            title: Text('帅哥')
+            title: Text('朋友圈')
           ),
             BottomNavigationBarItem(
             icon: Icon(Icons.person),
