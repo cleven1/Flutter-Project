@@ -82,17 +82,14 @@ class _CLMomentsPageState extends State<CLMomentsPage> {
 
   /// 文本布局
   getItemTextContainer(CLMomentsModel model){
+    
     return getItemBaseContainer(
       model,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-         CLText(
-          text: model.content,
-          maxLines: 6,
-          style: setTextStyle(textColor: Colors.pinkAccent),
-        ),
-        getFullContainer(),
+          getTextContainer(model),
+          model.isShowFullButton ? getFullContainer(model) : Container(),
        ],
      )
     );
@@ -105,12 +102,8 @@ class _CLMomentsPageState extends State<CLMomentsPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CLText(
-            text: model.content,
-            maxLines: 6,
-            style: setTextStyle(textColor: Colors.pinkAccent),
-          ),
-          getFullContainer(),
+          getTextContainer(model),
+          model.isShowFullButton ? getFullContainer(model) : Container(),
           SizedBox(height: 10,),
           CLFlow(
             count: model.momentPics.length,
@@ -119,6 +112,14 @@ class _CLMomentsPageState extends State<CLMomentsPage> {
         ],
       )
     );
+  }
+
+  getTextContainer(CLMomentsModel model) {
+    return CLText(
+          text: model.content,
+          maxLines: model.isDidFullButton ? 100000 : 6,
+          style: setTextStyle(textColor: Colors.pinkAccent),
+        );
   }
 
   getImageContaniner(CLMomentsModel model) {
@@ -130,14 +131,16 @@ class _CLMomentsPageState extends State<CLMomentsPage> {
     return images;
   }
 
-  getFullContainer(){
+  getFullContainer(CLMomentsModel model){
     return Container(
           padding: EdgeInsets.only(top: 10),
           child: GestureDetector(
             onTap: (){
-              print('点击全文');
+              setState(() {
+                model.isDidFullButton = !model.isDidFullButton;  
+              });
             },
-            child: CLText(text: '全文',style: setTextStyle(textColor: Colors.blue),),
+            child: CLText(text: model.isDidFullButton ? '收起' : '全文',style: setTextStyle(textColor: Colors.blue),),
           )
         );
   }

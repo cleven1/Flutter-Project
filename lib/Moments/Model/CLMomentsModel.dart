@@ -11,6 +11,10 @@ class CLMomentsModel {
   String momentId;
   int commentCout;
 
+  /// 是否显示全文按钮
+  bool isShowFullButton;
+  bool isDidFullButton = false;
+
   CLMomentsModel(
       {this.content,
       this.userInfo,
@@ -24,6 +28,7 @@ class CLMomentsModel {
 
   CLMomentsModel.fromJson(Map<String, dynamic> json) {
     content = json['content'];
+    isShowFullButton = content.length > 100;
     userInfo = json['user_info'] != null
         ? new CLUserInfo.fromJson(json['user_info'])
         : null;
