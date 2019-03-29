@@ -29,6 +29,7 @@ dependencies:
   flutter_easyrefresh: ^1.2.7
   flutter_section_table_view: ^1.0.3
   fluttertoast: ^3.0.3
+  common_utils: ^1.1.1 
 
 dev_dependencies:
   flutter_test:

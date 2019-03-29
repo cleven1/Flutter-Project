@@ -6,7 +6,8 @@ import '../custom/CLFlow.dart';
 import '../custom/CLListViewRefresh.dart';
 import '../Utils/CLDioUtil.dart';
 import './Model/CLMomentsModel.dart';
-
+import 'package:common_utils/common_utils.dart';
+import '../Utils/CLUtil.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -151,6 +152,8 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 
   getItemBaseContainer(CLMomentsModel model, Widget subChild){
+    int timeStamp = model.timeStamp == null ? CLUtil.currentTimeMillis() : int.parse(model.timeStamp) * 10;    
+    String formatTime = TimelineUtil.format(timeStamp,dayFormat: DayFormat.Simple);
     return Container(
         padding: EdgeInsets.only(left: 15,right: 15,top: 15),
         child: Row(
@@ -175,7 +178,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
                     style: setTextStyle(textColor: Colors.black87),
                   ),
                   CLText(
-                    text: "${model.timeStamp}",
+                    text: formatTime,//TimelineUtil.format(int.parse(model.timeStamp),dayFormat: DayFormat.Simple),//.formatByDateTime(formatTime,locale: 'zh').toString(),
                     style: setTextStyle(textColor: Colors.grey,fontSize: 12),
                   ),
                   SizedBox(height: 5,),
