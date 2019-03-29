@@ -7,6 +7,7 @@ import '../custom/CLListViewRefresh.dart';
 import '../Utils/CLDioUtil.dart';
 import './Model/CLMomentsModel.dart';
 
+
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
   final String title;
@@ -122,10 +123,15 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 
   getImageContaniner(CLMomentsModel model) {
-    List<ExtendedImage> images = [];
+    List<GestureDetector> images = [];
     for (var i = 0; i < model.momentPics.length; i++) {
       String imageUrl = model.momentPics[i];
-      images.add(ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),);
+      images.add(GestureDetector(
+        onTap: (){
+          print("imageUrl == $imageUrl index == $i");
+        },
+        child: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
+      ));
     }
     return images;
   }
