@@ -6,7 +6,6 @@ import '../custom/CLFlow.dart';
 import '../custom/CLListViewRefresh.dart';
 import '../Utils/CLDioUtil.dart';
 import './Model/CLMomentsModel.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -56,13 +55,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
       appBar: CLAppBar(
         title: '朋友圈',
       ),
-      body: ListView.builder(
-        itemCount: mList.length,
-        itemBuilder: (BuildContext context, int index) {
-          CLMomentsModel model = mList[index];
-          return model.momentPics == null ? getItemTextContainer(model) :getItemImageContainer(model);
-        },
-      )//getListViewContainer(),
+      body: getListViewContainer(),
     );
   }
 

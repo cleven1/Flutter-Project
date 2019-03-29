@@ -9,16 +9,11 @@ import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
 typedef Future<void> OnRefresh();
 typedef Future<void> LoadMore();
 
-class CLListViewRefresh extends StatelessWidget {
-
+class CLListViewRefresh extends StatefulWidget {
   final List listData;
   final Widget child;
   final OnRefresh onRefresh;
   final LoadMore loadMore;
-
-  final GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-  final GlobalKey<RefreshHeaderState> headerKey = new GlobalKey<RefreshHeaderState>();
-  final GlobalKey<RefreshFooterState> footerKey = new GlobalKey<RefreshFooterState>();
 
   CLListViewRefresh({
     Key key ,
@@ -27,27 +22,41 @@ class CLListViewRefresh extends StatelessWidget {
     this.onRefresh, 
     this.loadMore}) : super(key: key);
 
+  _CLListViewRefreshState createState() => _CLListViewRefreshState();
+}
+
+class _CLListViewRefreshState extends State<CLListViewRefresh> {
   @override
   Widget build(BuildContext context) {
     return getListViewContainer();
   }
 
+  GlobalKey<EasyRefreshState> easyRefreshKey;
+  GlobalKey<RefreshHeaderState> headerKey;
+  GlobalKey<RefreshFooterState> footerKey;
+  void initState() { 
+    super.initState();
+    easyRefreshKey = new GlobalKey<EasyRefreshState>();
+    headerKey = new GlobalKey<RefreshHeaderState>();
+    footerKey = new GlobalKey<RefreshFooterState>();
+  }
+
   getListViewContainer() {
 
-    if (listData.isEmpty){ /// 没有数据时显示loading状态
+    if (widget.listData.isEmpty){ /// 没有数据时显示loading状态
       return Center(child: CupertinoActivityIndicator(),);
     }
     
     return EasyRefresh(
-      key: _easyRefreshKey,
+      key: easyRefreshKey,
       refreshHeader: getBallHeader(),
       refreshFooter: getBallFotter(),
         /// 下拉刷新
-      onRefresh: onRefresh, 
-      loadMore: loadMore,/// 上拉加载
+      onRefresh: widget.onRefresh, 
+      loadMore: widget.loadMore,/// 上拉加载
       behavior: ScrollOverBehavior(),
       autoLoad: true,
-      child: child,
+      child: widget.child,
     );
   }
 
