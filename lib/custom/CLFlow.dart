@@ -15,7 +15,7 @@ class CLFlow extends StatelessWidget {
     this.gap}) : super(key: key);
 
   @override
-  Flow build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Flow(
       delegate: CLFlowDelegate(
         count: count,
@@ -44,8 +44,13 @@ class CLFlowDelegate extends FlowDelegate {
     var x = gap;
     var y = 0.0;
 
+    /// 需要重新计算,解决刷新值为0的问题
+    getItemSize();
+    getColumnsNumber(count);
+    totalW = (itemW * rows) + (gap * (rows + 1));
+
     //计算每一个子widget的位置  
-    for (int i = 0; i < context.childCount; i++) {
+    for (int i = 0; i < count; i++) {
       var w = context.getChildSize(i).width + x;
       if (w < totalW) {
         context.paintChild(i,

@@ -17,10 +17,10 @@ class CLMomentsPage extends StatefulWidget {
   _CLMomentsPageState createState() => _CLMomentsPageState();
 }
 
-class _CLMomentsPageState extends State<CLMomentsPage> {
+class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveClientMixin{
 
-  // @override
-  // bool get wantKeepAlive => true;   
+  @override
+  bool get wantKeepAlive => true;   
 
   List <CLMomentsModel> mList = [];
 
@@ -56,12 +56,18 @@ class _CLMomentsPageState extends State<CLMomentsPage> {
       appBar: CLAppBar(
         title: '朋友圈',
       ),
-      body: getListViewContainer(),
+      body: ListView.builder(
+        itemCount: mList.length,
+        itemBuilder: (BuildContext context, int index) {
+          CLMomentsModel model = mList[index];
+          return model.momentPics == null ? getItemTextContainer(model) :getItemImageContainer(model);
+        },
+      )//getListViewContainer(),
     );
   }
 
   getListViewContainer() {
-
+    
     return CLListViewRefresh(
       listData: mList,
       child: ListView.builder(
@@ -108,7 +114,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> {
           CLFlow(
             count: model.momentPics.length,
             children: getImageContaniner(model),
-          )
+          ),
         ],
       )
     );
