@@ -190,7 +190,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   CLText(
-                    text: "${model.userInfo.name}",
+                    text: "${model.aliasName}",
                     textAlign: TextAlign.start,
                     style: setTextStyle(textColor: Colors.black87),
                   ),
