@@ -8,6 +8,7 @@ import '../Utils/CLDioUtil.dart';
 import './Model/CLMomentsModel.dart';
 import 'package:common_utils/common_utils.dart';
 import '../Utils/CLUtil.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -125,11 +126,27 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
 
   getImageContaniner(CLMomentsModel model) {
     List<GestureDetector> images = [];
+    List<PhotoViewGalleryPageOptions> galleryList = [];
     for (var i = 0; i < model.momentPics.length; i++) {
       String imageUrl = model.momentPics[i];
+      var pageOption = PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(imageUrl),
+              heroTag: "tag${i + 1}",
+            );
+      galleryList.add(pageOption);
       images.add(GestureDetector(
         onTap: (){
-          print("imageUrl == $imageUrl index == $i");
+          // print("imageUrl == $imageUrl index == $i");
+          Container(
+            color: Colors.red,
+            child: PhotoViewGallery(
+              pageController: PageController(
+                initialPage: i,
+              ),
+              pageOptions: galleryList,
+              backgroundDecoration: BoxDecoration(color: Colors.black87),
+              ),
+            );
         },
         child: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
       ));
@@ -152,7 +169,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 
   getItemBaseContainer(CLMomentsModel model, Widget subChild){
-    int timeStamp = model.timeStamp == null ? CLUtil.currentTimeMillis() : int.parse(model.timeStamp) * 10;    
+    int timeStamp = model.timeStamp == null ? CLUtil.currentTimeMillis() : int.parse(model.timeStamp);    
     String formatTime = TimelineUtil.format(timeStamp,dayFormat: DayFormat.Simple);
     return Container(
         padding: EdgeInsets.only(left: 15,right: 15,top: 15),

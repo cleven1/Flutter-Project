@@ -3,6 +3,7 @@ import '../custom/CLAppbar.dart';
 import '../custom/CLText.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class CLProfileModel {
@@ -48,7 +49,11 @@ class CLProfilePage extends StatelessWidget {
         },
         cellAtIndexPath: (section, index) {
           return GestureDetector(
-            onTap: () {
+            onTap: () async {
+              await Fluttertoast.showToast(
+                msg: 'section == $section  index == $index',
+                gravity: ToastGravity.CENTER,
+              );
               print('section == $section  index == $index');
             },
             child: getItemContainer(items[section][index]),
