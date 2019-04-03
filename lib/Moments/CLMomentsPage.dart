@@ -117,11 +117,17 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 
   getTextContainer(CLMomentsModel model) {
-    return CLText(
+    GlobalKey _myKey = new GlobalKey();
+    
+    CLText text = CLText(
+        key: _myKey,
           text: model.content,
           maxLines: model.isDidFullButton ? 100000 : 6,
           style: setTextStyle(textColor: Colors.pinkAccent),
         );
+      // RenderObject renderObject = _myKey.currentContext.findRenderObject();
+      // print("semanticBounds:${renderObject.semanticBounds.size} paintBounds:${renderObject.paintBounds.size} size:${_myKey.currentContext.size}");
+    return text; 
   }
 
   getImageContaniner(CLMomentsModel model) {
