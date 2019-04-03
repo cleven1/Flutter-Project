@@ -70,7 +70,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
         itemCount: mList.length,
         itemBuilder: (BuildContext context, int index) {
           CLMomentsModel model = mList[index];
-          return model.momentPics == null ? getItemTextContainer(model) :getItemImageContainer(model);
+          return model.momentType == 0 ? getItemTextContainer(model) :getItemImageContainer(model);
         },
       ),
       onRefresh: (){

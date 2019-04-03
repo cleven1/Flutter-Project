@@ -8,6 +8,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import '../custom/CLListViewRefresh.dart';
 import '../custom/CLAppbar.dart';
+import '../Utils/CLPushUtil.dart';
 
 class CLHomePage extends StatefulWidget {
   final Widget child;
@@ -118,9 +119,10 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
         var model = mList[index];
       return GestureDetector(onTap: (){ /// 添加item点击事件
         /// 跳转界面
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CLHomeDetailPage(roomName: model.roomName,roomId: model.roomId);
-        }));
+        CLPushUtil().pushNavigatiton(context, CLHomeDetailPage(roomName: model.roomName,roomId: model.roomId));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return CLHomeDetailPage(roomName: model.roomName,roomId: model.roomId);
+        // }));
       },child: getListViewItemContainer(model),
       );
      },
