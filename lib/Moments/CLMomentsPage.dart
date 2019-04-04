@@ -9,6 +9,8 @@ import './Model/CLMomentsModel.dart';
 import 'package:common_utils/common_utils.dart';
 import '../Utils/CLUtil.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import '../Utils/CLPushUtil.dart';
+import 'CLPublishMomentPage.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -58,7 +60,23 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
       appBar: CLAppBar(
         title: '朋友圈',
       ),
-      body: getListViewContainer(),
+      body: Stack(
+        children: <Widget>[
+          getListViewContainer(),
+          Positioned(
+            right: 15,
+            bottom: 25,
+            child: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: (){
+                  CLPushUtil().pushNavigatiton(context, 
+                    CLPublishMomentPage(title: "发布")
+                  );
+                },
+              ),
+          )
+        ],
+      ),
     );
   }
 
