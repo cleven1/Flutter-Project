@@ -73,9 +73,8 @@ class _CLPublishMomentPageState extends State<CLPublishMomentPage> {
               setState(() {
                 imageList = list;
               });
-          },
-          isShowDeleteButton: false,) : _getAddPhotoContainer(),
-          SizedBox(height: 80,)
+          },) : _getAddPhotoContainer(),
+          SizedBox(height: 11,)
 
         ],
       ),

@@ -70,32 +70,31 @@ class AssetImageWidget extends StatelessWidget {
 class CLPhotoView extends StatefulWidget {
   final List<AssetEntity> list;
   final OnDeleteItem onDeleteItem;
-  final bool isShowDeleteButton;
 
   CLPhotoView({
     Key key, 
     @required this.list,
      this.onDeleteItem,
-     this.isShowDeleteButton}) : super(key: key);
+     }) : super(key: key);
 
   _CLPhotoViewState createState() => _CLPhotoViewState();
 }
 
 class _CLPhotoViewState extends State<CLPhotoView> {
-
+  double spacing = 10;
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 10,
-      runSpacing: 10,
+      spacing: spacing,
+      runSpacing: spacing,
       alignment: WrapAlignment.start,
       children: widget.list
             .map((item) => Stack(
               children: <Widget>[
                 AssetImageWidget(
                   assetEntity: item,
-                  width: 80,
-                  height: 80,
+                  width: (MediaQuery.of(context).size.width - (4 * spacing) - (2 * spacing)) / 5,
+                  height: 60,
                   boxFit: BoxFit.cover,
                 ),
                 Positioned(
@@ -103,7 +102,7 @@ class _CLPhotoViewState extends State<CLPhotoView> {
                   top: -3,
                   child: IconButton(
                     icon: Icon(Icons.delete_forever,color: Colors.red,size: 20,),
-                    iconSize: widget.isShowDeleteButton ? 25 : 0,
+                    iconSize: 25,
                     alignment: Alignment.topRight,
                     onPressed: (){
                       setState(() {
