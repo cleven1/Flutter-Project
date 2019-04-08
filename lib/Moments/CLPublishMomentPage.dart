@@ -4,14 +4,19 @@ import '../custom/CLAppbar.dart';
 import '../custom/CLText.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
-import '../Utils/CLPushUtil.dart';
+import '../Utils/CLDioUtil.dart';
 import '../custom/CLPhotoView.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+/// 定义回调类型
+typedef Future<void> PubilshMomentsSuccess();
 
 class CLPublishMomentPage extends StatefulWidget {
   final Widget child;
   final String title;
+  final PubilshMomentsSuccess pubilshMomentsSuccess;
 
-  CLPublishMomentPage({Key key, this.child, @required this.title}): super(key: key);
+  CLPublishMomentPage({Key key, this.child, @required this.title, this.pubilshMomentsSuccess}): super(key: key);
 
   _CLPublishMomentPageState createState() => _CLPublishMomentPageState();
 }
@@ -19,6 +24,8 @@ class CLPublishMomentPage extends StatefulWidget {
 class _CLPublishMomentPageState extends State<CLPublishMomentPage> {
 
   List<AssetEntity> imageList = [];
+
+  String _content = '';
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +38,30 @@ class _CLPublishMomentPageState extends State<CLPublishMomentPage> {
     );
   }
 
+  /// 发布
+  _publishMoment() async{
+    print("content == $_content");
+    Map<String,dynamic> params = {
+      "content": _content,
+      "user_id": "123456",
+      "moment_pics": [],
+      "moment_type": "0"
+    };
+    CLResultModel result = await  CLDioUtil().requestPost("http://api.cleven1.com/api/moments/publishMoments",params: params);
+    if(result.success){
+      print(result.data);
+      widget.pubilshMomentsSuccess();
+      Navigator.pop(context);
+    }else{
+      print("发布失败== ${result.data}");
+
+      Fluttertoast.showToast(
+        msg: "发布失败",
+        gravity: ToastGravity.CENTER,
+      );
+    }
+  }
+
   _getRightActions() {
     return <Widget>[
           Container(
@@ -40,6 +71,7 @@ class _CLPublishMomentPageState extends State<CLPublishMomentPage> {
             ),),
             onPressed: (){
               print("发布");
+              _publishMoment();
             },),
           )
         ];
@@ -87,11 +119,19 @@ class _CLPublishMomentPageState extends State<CLPublishMomentPage> {
     return TextField(
       maxLines: 100,
       maxLength: 500,
+      textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         hintText: "请输入文本:",
         hintStyle: TextStyle(color: Colors.grey),
         border: InputBorder.none
       ),
+      onChanged: (text){
+        _content = text;
+      },
+      onSubmitted: (text){
+        /// 隐藏键盘
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
     );
   }
 

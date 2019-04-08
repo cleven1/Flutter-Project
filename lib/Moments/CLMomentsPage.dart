@@ -70,7 +70,9 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
               child: Icon(Icons.add),
               onPressed: (){
                   CLPushUtil().pushNavigatiton(context, 
-                    CLPublishMomentPage(title: "发布")
+                    CLPublishMomentPage(title: "发布", pubilshMomentsSuccess: (){
+                      getMomentsData();
+                    },)
                   );
                 },
               ),
@@ -153,29 +155,37 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
     List<PhotoViewGalleryPageOptions> galleryList = [];
     for (var i = 0; i < model.momentPics.length; i++) {
       String imageUrl = model.momentPics[i];
-      var pageOption = PhotoViewGalleryPageOptions(
-              imageProvider: NetworkImage(imageUrl),
-              heroTag: "tag${i + 1}",
-            );
+      var pageOption = _photoViewGallery(imageUrl, i);
       galleryList.add(pageOption);
       images.add(GestureDetector(
-        onTap: (){
+        onTap: () {
           // print("imageUrl == $imageUrl index == $i");
-          Container(
-            color: Colors.red,
-            child: PhotoViewGallery(
-              pageController: PageController(
-                initialPage: i,
-              ),
-              pageOptions: galleryList,
-              backgroundDecoration: BoxDecoration(color: Colors.black87),
-              ),
-            );
+         _photoBrowser(galleryList, i);
         },
         child: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
       ));
     }
     return images;
+  }
+
+  _photoViewGallery(String imageUrl,int i) {
+        return PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(imageUrl),
+              heroTag: "tag${i + 1}",
+            );
+  }
+
+  void _photoBrowser(List<PhotoViewGalleryPageOptions> galleryList, int initialPage) async{
+      PhotoViewGallery gallery = PhotoViewGallery(
+              pageController: PageController(
+                initialPage: initialPage,
+              ),
+              pageOptions: galleryList,
+              backgroundDecoration: BoxDecoration(color: Colors.black87),
+              gaplessPlayback: true,
+
+              );
+      CLPushUtil().pushNavigatiton(context, gallery);
   }
 
   getFullContainer(CLMomentsModel model){
