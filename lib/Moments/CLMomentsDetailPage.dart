@@ -9,6 +9,7 @@ import 'package:common_utils/common_utils.dart';
 import '../Utils/CLDioUtil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './Model/CLCommentsModel.dart';
+import '../custom/HUD.dart';
 
 
 class CLMomentsDetailPage extends StatefulWidget {
@@ -41,8 +42,12 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
       "moment_id": widget.momentModel.momentId,
       "reply_id": replyId,
     };
+    print("object == $params");
+
+    HUD().showHud(context);
     CLResultModel result = await CLDioUtil().requestPost("http://api.cleven1.com/api/moments/addComments",params: params);
     if(result.success){
+      HUD().hideHud();
       Fluttertoast.showToast(
         msg: "发送成功",
         gravity: ToastGravity.CENTER
@@ -55,6 +60,7 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
       textEditingController.clear();
       FocusScope.of(context).requestFocus(FocusNode());
     }else{
+      HUD().hideHud();
       Fluttertoast.showToast(
         msg: "发送失败",
         gravity: ToastGravity.CENTER
@@ -231,15 +237,12 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
               style: TextStyle(color: Colors.red)
             ),
             TextSpan(
-              text: " ${commentsModel.content}",
+              text: commentsModel.replyUserInfo == null ? "" : " ${commentsModel.content}",
               style: TextStyle(color: Colors.black)
             )
           ]
         ),
       ),
-      // CLText(text: commentsModel.replyUserInfo == null ? commentsModel.content : "回复@${commentsModel.aliasName}: ${commentsModel.content}",
-      //  maxLines: 10000, 
-      //  style: TextStyle(color: Colors.black),),
        nameColor: Colors.blueAccent,
        subChild: Column(
           children: <Widget>[
