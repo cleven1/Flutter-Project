@@ -11,6 +11,7 @@ import '../Utils/CLUtil.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import '../Utils/CLPushUtil.dart';
 import 'CLPublishMomentPage.dart';
+import './CLMomentsDetailPage.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -90,7 +91,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
         itemCount: mList.length,
         itemBuilder: (BuildContext context, int index) {
           CLMomentsModel model = mList[index];
-          return model.momentType == 0 ? getItemTextContainer(model) :getItemImageContainer(model);
+          return model.momentType == 0 ? getItemTextContainer(model, index) : getItemImageContainer(model, index);
         },
       ),
       onRefresh: (){
@@ -103,11 +104,12 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 
   /// 文本布局
-  getItemTextContainer(CLMomentsModel model){
+  getItemTextContainer(CLMomentsModel model ,int index){
     
     return getItemBaseContainer(
-      model,
-      Column(
+      model: model,
+      index: index,
+      subChild: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           getTextContainer(model),
@@ -118,10 +120,11 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 
   /// 图片布局
-  getItemImageContainer(CLMomentsModel model){
+  getItemImageContainer(CLMomentsModel model, int index){
     return getItemBaseContainer(
-      model,
-      Column(
+      model: model,
+      index: index,
+      subChild: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           getTextContainer(model),
@@ -132,7 +135,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
             children: getImageContaniner(model),
           ),
         ],
-      )
+      ),
     );
   }
 
@@ -202,10 +205,15 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
         );
   }
 
-  getItemBaseContainer(CLMomentsModel model, Widget subChild){
+  getItemBaseContainer({CLMomentsModel model, Widget subChild, int index}){
     int timeStamp = model.timeStamp == null ? CLUtil.currentTimeMillis() : int.parse(model.timeStamp);    
     String formatTime = TimelineUtil.format(timeStamp,dayFormat: DayFormat.Simple);
-    return Container(
+    return GestureDetector(
+      onTap: (){
+          print("object == $index  content == ${model.content}");
+          CLPushUtil().pushNavigatiton(context, CLMomentsDetailPage(momentModel: model,));
+      },
+      child: Container(
         padding: EdgeInsets.only(left: 15,right: 15,top: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +253,8 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
             )
           ],
         ),
-      );
+      ),
+    );
   }
 }
 

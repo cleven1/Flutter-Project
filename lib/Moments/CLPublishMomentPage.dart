@@ -7,6 +7,7 @@ import 'package:photo_manager/photo_manager.dart';
 import '../Utils/CLDioUtil.dart';
 import '../custom/CLPhotoView.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../custom/HUD.dart';
 
 /// 定义回调类型
 typedef Future<void> PubilshMomentsSuccess();
@@ -38,23 +39,39 @@ class _CLPublishMomentPageState extends State<CLPublishMomentPage> {
     );
   }
 
+  @override
+  void dispose() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    super.dispose();
+  }
+
   /// 发布
   _publishMoment() async{
     print("content == $_content");
+    
+    if (_content.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "内容不能为空",
+        gravity: ToastGravity.CENTER
+      );
+      return;
+    }
     Map<String,dynamic> params = {
       "content": _content,
       "user_id": "123456",
       "moment_pics": [],
       "moment_type": "0"
     };
+    HUD().showHud(context);
     CLResultModel result = await  CLDioUtil().requestPost("http://api.cleven1.com/api/moments/publishMoments",params: params);
     if(result.success){
       print(result.data);
       widget.pubilshMomentsSuccess();
       Navigator.pop(context);
+      HUD().hideHud();
     }else{
       print("发布失败== ${result.data}");
-
+      HUD().hideHud();
       Fluttertoast.showToast(
         msg: "发布失败",
         gravity: ToastGravity.CENTER,

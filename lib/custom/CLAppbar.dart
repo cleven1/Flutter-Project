@@ -8,7 +8,7 @@ class CLAppBar extends PreferredSize {
   final List<Widget> actions;
   static final double navHeight = 44.0;
 
-  CLAppBar({Key key, @required this.child, this.title, this.leading, this.actions}) : super(key: key, child:child, preferredSize: Size.fromHeight(navHeight));
+  CLAppBar({Key key, this.child, this.title, this.leading, this.actions}) : super(key: key, child:child, preferredSize: Size.fromHeight(navHeight));
 
   @override
   PreferredSize build(BuildContext context) {

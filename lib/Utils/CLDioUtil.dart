@@ -43,7 +43,7 @@ class CLDioUtil {
       headers.addAll(header);
     }
     /// options 处理
-    if (option !=null) {
+    if (option != null) {
       option.headers = headers;
     }else{
       option = new Options(method: 'get');
