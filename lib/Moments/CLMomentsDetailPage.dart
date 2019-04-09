@@ -10,6 +10,10 @@ import '../Utils/CLDioUtil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './Model/CLCommentsModel.dart';
 import '../custom/HUD.dart';
+import '../custom/CLFlow.dart';
+import 'package:photo_view/photo_view_gallery.dart';
+import '../Utils/CLPushUtil.dart';
+import './CLPhotoViewBrowser.dart';
 
 
 class CLMomentsDetailPage extends StatefulWidget {
@@ -131,7 +135,25 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
   _getHeaderContainer(){
     return _getBaseContainer(
       widget.momentModel, 
-      CLText(text: widget.momentModel.content, maxLines: 10000, style: TextStyle(color: Colors.pink),),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          CLText(text: widget.momentModel.content, maxLines: widget.momentModel.isDidFullButton ? 10000 : 6, style: TextStyle(color: Colors.pink),),
+          SizedBox(height: 10,),
+          widget.momentModel.isShowFullButton ? GestureDetector(
+          onTap: (){
+            setState(() {
+              widget.momentModel.isDidFullButton = !widget.momentModel.isDidFullButton;
+            });
+          },
+          child: CLText(text: widget.momentModel.isDidFullButton ? "收起" : "全文",style: TextStyle(color: Colors.blue),),) : Container(),
+          SizedBox(height: 10,),
+          widget.momentModel.momentType == 1 ? CLFlow(
+            count: widget.momentModel.momentPics.length,
+            children: _getImageContaniner(widget.momentModel),
+          ) : Container()
+        ],
+      ),
       subChild: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -143,6 +165,35 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
       );
   }
 
+
+  _getImageContaniner(CLMomentsModel model) {
+    List<GestureDetector> images = [];
+    List<PhotoViewGalleryPageOptions> galleryList = [];
+    for (var i = 0; i < model.momentPics.length; i++) {
+      String imageUrl = model.momentPics[i];
+      var pageOption = _photoViewGallery(imageUrl, i);
+      galleryList.add(pageOption);
+      images.add(GestureDetector(
+        onTap: (){
+          // print("imageUrl == $imageUrl index == $i");
+          CLPushUtil().pushNavigatiton(context,CLPhotoViewBrowser(
+            galleryList: galleryList,
+            initialPage: i,
+            loadingChild: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
+            ));
+        },
+        child: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
+      ));
+    }
+    return images;
+  }
+
+  _photoViewGallery(String imageUrl,int i) {
+        return PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(imageUrl),
+              heroTag: "tag${i + 1}",
+            );
+  }
 
   _getListViewContainer(){
     CLCommentsModel commentsModel = commentList.isEmpty ? CLCommentsModel() : commentList.first;
@@ -262,30 +313,30 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
     return Container(
       padding: EdgeInsets.only(left: 10,right: 10,top: 5),
       child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        ExtendedImage.network(
-              "${model.userInfo.avatarUrl}",
-              width: 40,
-              height: 40,
-              shape: BoxShape.circle,
-              borderRadius: BorderRadius.circular(20),
-              cache: true,
-            ),
-        SizedBox(width: 10,),
-        Expanded(
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            CLText(text: name == null ? model.aliasName : name,style: setTextStyle(textColor: nameColor == null ? Colors.black87 : nameColor),),
-            CLText(text: formatTime,style: setTextStyle(textColor: Colors.grey,fontSize: 12),),
-            SizedBox(height: 5,),
-            child,
-          ],
-        ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ExtendedImage.network(
+                "${model.userInfo.avatarUrl}",
+                width: 40,
+                height: 40,
+                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(20),
+                cache: true,
+              ),
+          SizedBox(width: 10,),
+          Expanded(
+            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CLText(text: name == null ? model.aliasName : name,style: setTextStyle(textColor: nameColor == null ? Colors.black87 : nameColor),),
+              CLText(text: formatTime,style: setTextStyle(textColor: Colors.grey,fontSize: 12),),
+              SizedBox(height: 5,),
+              child,
+            ],
+          ),
         ),
       ],
     ),

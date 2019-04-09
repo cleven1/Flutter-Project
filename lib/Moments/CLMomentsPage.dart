@@ -13,6 +13,7 @@ import '../Utils/CLPushUtil.dart';
 import 'CLPublishMomentPage.dart';
 import './CLMomentsDetailPage.dart';
 import './CLOptionsPage.dart';
+import './CLPhotoViewBrowser.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -164,7 +165,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
       images.add(GestureDetector(
         onTap: (){
           // print("imageUrl == $imageUrl index == $i");
-          CLPushUtil().pushNavigatiton(context,PhotoViewBrowser(
+          CLPushUtil().pushNavigatiton(context,CLPhotoViewBrowser(
             galleryList: galleryList,
             initialPage: i,
             loadingChild: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
@@ -251,37 +252,6 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-
-/// 图片查看
-class PhotoViewBrowser extends StatelessWidget {
-  final Widget child;
-  final int initialPage;
-  final List<PhotoViewGalleryPageOptions> galleryList;
-  final Widget loadingChild;
-
-  PhotoViewBrowser({Key key, this.child, this.initialPage, this.galleryList, this.loadingChild}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTap: (){
-          Navigator.pop(context);
-        },
-        child: PhotoViewGallery(
-              // loadingChild: loadingChild,
-              pageController: PageController(
-                initialPage: initialPage,
-              ),
-              pageOptions: galleryList,
-              backgroundDecoration: BoxDecoration(color: Colors.black87),
-              gaplessPlayback: true,
-              transitionOnUserGestures: true, 
-              ),
       ),
     );
   }
