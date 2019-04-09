@@ -12,6 +12,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 import '../Utils/CLPushUtil.dart';
 import 'CLPublishMomentPage.dart';
 import './CLMomentsDetailPage.dart';
+import './CLOptionsPage.dart';
 
 class CLMomentsPage extends StatefulWidget {
   final Widget child;
@@ -161,9 +162,13 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
       var pageOption = _photoViewGallery(imageUrl, i);
       galleryList.add(pageOption);
       images.add(GestureDetector(
-        onTap: () {
+        onTap: (){
           // print("imageUrl == $imageUrl index == $i");
-         _photoBrowser(galleryList, i);
+          CLPushUtil().pushNavigatiton(context,PhotoViewBrowser(
+            galleryList: galleryList,
+            initialPage: i,
+            loadingChild: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
+            ));
         },
         child: ExtendedImage.network(imageUrl,cache: true,fit: BoxFit.cover,),
       ));
@@ -176,19 +181,6 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
               imageProvider: NetworkImage(imageUrl),
               heroTag: "tag${i + 1}",
             );
-  }
-
-  void _photoBrowser(List<PhotoViewGalleryPageOptions> galleryList, int initialPage) async{
-      PhotoViewGallery gallery = PhotoViewGallery(
-              pageController: PageController(
-                initialPage: initialPage,
-              ),
-              pageOptions: galleryList,
-              backgroundDecoration: BoxDecoration(color: Colors.black87),
-              gaplessPlayback: true,
-
-              );
-      CLPushUtil().pushNavigatiton(context, gallery);
   }
 
   getFullContainer(CLMomentsModel model){
@@ -246,8 +238,14 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
               ),
             ),
             GestureDetector(
-              onDoubleTap: (){
-                  print("点击");
+              onTap: (){
+                CLOptionPage.showView(
+                  context,
+                  clickItemCallback: (CLOptionType type){
+                    if (type == CLOptionType.delete){
+                      print("删除");
+                  }
+                });
               },
               child: Icon(Icons.more_horiz,),
             )
@@ -258,3 +256,33 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   }
 }
 
+
+/// 图片查看
+class PhotoViewBrowser extends StatelessWidget {
+  final Widget child;
+  final int initialPage;
+  final List<PhotoViewGalleryPageOptions> galleryList;
+  final Widget loadingChild;
+
+  PhotoViewBrowser({Key key, this.child, this.initialPage, this.galleryList, this.loadingChild}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: PhotoViewGallery(
+              // loadingChild: loadingChild,
+              pageController: PageController(
+                initialPage: initialPage,
+              ),
+              pageOptions: galleryList,
+              backgroundDecoration: BoxDecoration(color: Colors.black87),
+              gaplessPlayback: true,
+              transitionOnUserGestures: true, 
+              ),
+      ),
+    );
+  }
+}

@@ -221,9 +221,25 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
       },
       child: _getBaseContainer(
       commentsModel,
-      CLText(text: commentsModel.replyUserInfo == null ? commentsModel.content : "回复@${commentsModel.aliasName}: ${commentsModel.content}",
-       maxLines: 10000, 
-       style: TextStyle(color: Colors.black),),
+      RichText(
+        text: TextSpan(
+          text: commentsModel.replyUserInfo == null ? commentsModel.content : "回复",
+          style: TextStyle(color: Colors.black),
+          children: <TextSpan>[
+            TextSpan(
+              text: commentsModel.replyUserInfo == null ? "" : "@${commentsModel.aliasName}:",
+              style: TextStyle(color: Colors.red)
+            ),
+            TextSpan(
+              text: " ${commentsModel.content}",
+              style: TextStyle(color: Colors.black)
+            )
+          ]
+        ),
+      ),
+      // CLText(text: commentsModel.replyUserInfo == null ? commentsModel.content : "回复@${commentsModel.aliasName}: ${commentsModel.content}",
+      //  maxLines: 10000, 
+      //  style: TextStyle(color: Colors.black),),
        nameColor: Colors.blueAccent,
        subChild: Column(
           children: <Widget>[
