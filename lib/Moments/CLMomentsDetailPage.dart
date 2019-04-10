@@ -137,8 +137,7 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CLText(text: widget.momentModel.content, maxLines: widget.momentModel.isDidFullButton ? 10000 : 6, style: TextStyle(color: Colors.pink),),
-          SizedBox(height: 10,),
+          widget.momentModel.content.isEmpty ? Container(height: 10,) : CLText(text: widget.momentModel.content, maxLines: widget.momentModel.isDidFullButton ? 10000 : 6, style: TextStyle(color: Colors.pink),),
           widget.momentModel.isShowFullButton ? GestureDetector(
           onTap: (){
             setState(() {
@@ -146,7 +145,7 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
             });
           },
           child: CLText(text: widget.momentModel.isDidFullButton ? "收起" : "全文",style: TextStyle(color: Colors.blue),),) : Container(),
-          SizedBox(height: 10,),
+          SizedBox(height: widget.momentModel.content.isEmpty ? 0 : 10,),
           widget.momentModel.momentType == 1 ? CLFlow(
             count: widget.momentModel.momentPics.length,
             children: _getImageContaniner(widget.momentModel),
@@ -321,7 +320,7 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
             children: <Widget>[
               CLText(text: name == null ? model.aliasName : name,style: setTextStyle(textColor: nameColor == null ? Colors.black87 : nameColor),),
               CLText(text: formatTime,style: setTextStyle(textColor: Colors.grey,fontSize: 12),),
-              SizedBox(height: 5,),
+              SizedBox(height: model.content.isEmpty ? 0 : 5,),
               child,
             ],
           ),

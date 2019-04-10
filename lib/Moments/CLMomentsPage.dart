@@ -116,6 +116,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
         children: <Widget>[
           getTextContainer(model),
           model.isShowFullButton ? getFullContainer(model) : Container(),
+          Divider()
        ],
      )
     );
@@ -129,13 +130,14 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
       subChild: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          getTextContainer(model),
+          model.content.isEmpty ? Container() : getTextContainer(model),
           model.isShowFullButton ? getFullContainer(model) : Container(),
-          SizedBox(height: 10,),
+          SizedBox(height: model.content.isEmpty ? 0 : 10,),
           CLFlow(
             count: model.momentPics.length,
             children: getImageContaniner(model),
           ),
+          Divider()
         ],
       ),
     );
