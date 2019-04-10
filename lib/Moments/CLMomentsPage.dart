@@ -38,7 +38,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
 
   getMomentsData({bool isLoadMore = false,String lastId}) async {
 
-    CLResultModel result = await CLDioUtil().requestGet("http://api.cleven1.com/api/moments/momentsList?isPullUp=$isLoadMore&offset_id=$lastId");
+    CLResultModel result = await CLDioUtil().requestGet("http://api.cleven1.com/api/moments/momentsList?isLoadMore=${isLoadMore ? 1 : 0}&offset_id=$lastId");
     List jsons = result.data['data'];
     List<CLMomentsModel> tempModel = [];
     jsons.forEach((model){
