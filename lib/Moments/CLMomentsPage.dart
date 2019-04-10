@@ -198,6 +198,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
           CLPushUtil().pushNavigatiton(context, CLMomentsDetailPage(momentModel: model,));
       },
       child: Container(
+        color: Colors.white,
         padding: EdgeInsets.only(left: 15,right: 15,top: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
