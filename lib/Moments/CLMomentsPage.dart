@@ -201,6 +201,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
   getItemBaseContainer({CLMomentsModel model, Widget subChild, int index}){
     int timeStamp = model.timeStamp == null ? CLUtil.currentTimeMillis() : int.parse(model.timeStamp);    
     String formatTime = TimelineUtil.format(timeStamp,dayFormat: DayFormat.Simple);
+    String avatarUrl = model.avatarUrl == null ? model.userInfo.avatarUrl : model.avatarUrl;
     return GestureDetector(
       onTap: (){
           print("object == $index  content == ${model.content}");
@@ -212,7 +213,7 @@ class _CLMomentsPageState extends State<CLMomentsPage> with AutomaticKeepAliveCl
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ExtendedImage.network(
-              "${model.userInfo.avatarUrl}",
+              avatarUrl,
               width: 40,
               height: 40,
               shape: BoxShape.circle,
