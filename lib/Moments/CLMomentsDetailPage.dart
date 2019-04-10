@@ -73,7 +73,7 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
 
   /// 获取评论数据
   _getMomentComentsData({bool isLoadMore = false,String lastCommentId = ""}) async{
-    String url = "http://api.cleven1.com/api/moments/commentsInfo?isLoadMore=${isLoadMore ? "1" : "0"}&offset_id=${lastCommentId}&moment_id=${widget.momentModel.momentId}";
+    String url = "http://api.cleven1.com/api/moments/commentsInfo?isLoadMore=${isLoadMore ? 1 : 0}&offset_id=$lastCommentId&moment_id=${widget.momentModel.momentId}";
     print(url);
     CLResultModel result = await CLDioUtil().requestGet(url);
     if(result.success){
@@ -89,6 +89,9 @@ class _CLMomentsDetailPageState extends State<CLMomentsDetailPage> {
           commentList.addAll(tempArray);
         });
       }else{
+        if (commentList.length > 0) {
+          commentList = [];
+        }
         if (tempArray.isEmpty && commentList.isEmpty) {
             CLCommentsModel model = CLCommentsModel(
               aliasName: widget.momentModel.aliasName,
