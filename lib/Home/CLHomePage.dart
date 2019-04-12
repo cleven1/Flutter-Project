@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import '../custom/CLListViewRefresh.dart';
 import '../custom/CLAppbar.dart';
 import '../Utils/CLPushUtil.dart';
+import '../Moments/CLPhotoViewBrowser.dart';
 
 class CLHomePage extends StatefulWidget {
   final Widget child;
@@ -141,7 +142,12 @@ class _CLHomeData extends State<CLHomeData> with AutomaticKeepAliveClientMixin {
           Container(
             padding: EdgeInsets.only(bottom: 15),
             
-            child: ExtendedImage.network(model.roomSrc,width: 130,height: 180,fit: BoxFit.cover,cache: true,),
+            child: GestureDetector(
+              onTap: (){
+                CLPushUtil().pushNavigatiton(context, CLPhotoViewBrowser(pics: [model.verticalSrc], currentIndex: 0,),);
+              },
+              child: ExtendedImage.network(model.roomSrc,width: 130,height: 180,fit: BoxFit.cover,cache: true,),
+            )
           ),
           Container(
             height: 180,

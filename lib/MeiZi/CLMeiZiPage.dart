@@ -6,6 +6,8 @@ import 'package:extended_image/extended_image.dart';
 import '../Home/CLHomeDetailPage.dart';
 import '../custom/CLListViewRefresh.dart';
 import '../custom/CLAppbar.dart';
+import '../Utils/CLPushUtil.dart';
+import '../Moments/CLPhotoViewBrowser.dart';
 
 class CLMeiZiPage extends StatefulWidget {
   final Widget child;
@@ -90,12 +92,17 @@ class _CLMeiZiState extends State<CLMeiZiPage> with AutomaticKeepAliveClientMixi
                         decoration: BoxDecoration( /// 添加阴影
                           boxShadow: [BoxShadow(color: Colors.black26,blurRadius: 10.0,offset: Offset(10.0, 10.0),spreadRadius: 0.0),],
                           ),
-                        child: ClipRRect( /// 网络图片添加圆角
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                            child: ExtendedImage.network(model.verticalSrc,
-                            fit: BoxFit.fill,
-                            cache: true,
-                            ),
+                        child: GestureDetector(
+                            onTap: (){
+                              CLPushUtil().pushNavigatiton(context, CLPhotoViewBrowser(pics: [model.verticalSrc], currentIndex: 0,),);
+                            },
+                            child: ClipRRect( /// 网络图片添加圆角
+                                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                          child: ExtendedImage.network(model.verticalSrc,
+                                          fit: BoxFit.fill,
+                                          cache: true,
+                                          ),
+                                        )
                           ),
                         ),
                       Positioned(
