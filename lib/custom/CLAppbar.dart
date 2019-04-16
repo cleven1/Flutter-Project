@@ -18,7 +18,7 @@ class CLAppBar extends PreferredSize {
         title: Text('$title'),
           centerTitle: true, /// 标题居中
           /// 设置状态栏颜色
-          brightness: Brightness.light, 
+          brightness: Brightness.dark, 
           /// 设置导航栏阴影效果
           elevation: 0.0,
           /// 左侧按钮
